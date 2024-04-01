@@ -1,6 +1,6 @@
 const buttonContainer = document.querySelector('.buttonContainer');
 const digitContainer = document.querySelector('.digitContainer');
-
+const output = document.querySelector('.output')
 
 //Number Variable Declaration:
 const one = document.querySelector('#one');
@@ -14,9 +14,16 @@ const eight = document.querySelector('#eight');
 const nine = document.querySelector('#nine');
 const zero = document.querySelector('#zero');
 
+//Operators:
+const plus = document.querySelector('#plus');
+const minus = document.querySelector('#minus');
+const times = document.querySelector('#times');
+const divide = document.querySelector('#divide')
+
+let math = [];
 buttonContainer.addEventListener('click',(event) => {
     let target = event.target;
-
+    
     switch(target.id){
         case 'one':
         case 'two':
@@ -28,7 +35,15 @@ buttonContainer.addEventListener('click',(event) => {
         case 'eight':
         case 'nine':
         case 'zero':
-            console.log(target.textContent);
+        case 'plus':
+        case 'minus':
+        case 'times':
+        case 'divide':
+            let number = target.textContent;
+            math.push(number)
             break;
+
     }
+    console.log(math)
+   
 })
