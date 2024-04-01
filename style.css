@@ -1,0 +1,86 @@
+.calcContainer{
+    width:325px;
+    height: 230px;
+    border:solid black 1px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(47, 45, 49);
+    font-size: xx-large;
+    font-weight: bold;
+   
+}
+button:hover{
+    opacity: 0.5;
+}
+.buttonContainer{
+    font-weight: bold;
+}
+.output{
+    margin:40px;
+    height:60px;
+    text-align: center;
+    
+
+
+}
+.row1, .row2, .row3, .row4, .row5{
+    display:flex;
+    
+}
+.backspace, .clear{
+    background-color: rgb(250, 112, 112);
+}
+.num, .decimal{
+    background-color: rgb(134, 134, 253);
+}
+button{
+    width:60px;
+    height:35px;
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+
+.leftCol, .rightCol{
+    display:flex;
+   
+    
+}
+.leftCol button, .rightCol button{
+    background-color: rgb(236, 236, 90);
+}
+
+.operatorContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.notBig{
+    display:flex;
+    justify-content: space-between;
+    margin:10px;
+}
+.backspace, .equal{
+    width:120px;
+}
+.equal{
+    background-color: green;
+}
+
+.output{
+    border:1px solid black;
+    margin: 5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background:rgb(190, 190, 190);
+
+}
+
+
+
+
+
