@@ -28,7 +28,7 @@ button:hover{
 .backspace, .clear{
     background-color: rgb(250, 112, 112);
 }
-.num, .decimal{
+.append{
     background-color: rgb(134, 134, 253);
 }
 button{

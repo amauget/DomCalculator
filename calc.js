@@ -1,38 +1,37 @@
-//Containers:
-const buttonContainer = document.querySelector('.buttonContainer');
-const digitContainer = document.querySelector('.digitContainer');
-
-//Number Variable Declaration:
-const one = document.querySelector('#one');
-const two = document.querySelector('#two')
-const three = document.querySelector('#three');
-const four = document.querySelector('#four');
-const five = document.querySelector('#five');
-const six = document.querySelector('#six');
-const seven = document.querySelector('#seven');
-const eight = document.querySelector('#eight');
-const nine = document.querySelector('#nine');
-const zero = document.querySelector('#zero');
-
-//Operators:
-const plus = document.querySelector('#plus');
-const minus = document.querySelector('#minus');
-const times = document.querySelector('#times');
-const divide = document.querySelector('#divide');
-const decimal = document.querySelector('#decimal');
-
-//Functionals:
-const output = document.querySelector('.output');
-const clear = document.querySelector('.clear');
-const backspace = document.querySelector('.backspace');
 
 
-let userInput = (prompt('input:')).split('')
-output.textContent = partition(userInput)
+function main(){
+    //Containers:
+    const buttonContainer = document.querySelector('.buttonContainer');
+    const digitContainer = document.querySelector('.digitContainer');
+
+    //Functionals:
+    const output = document.querySelector('.output');
+    const clear = document.querySelector('.clear');
+    const backspace = document.querySelector('.backspace');
+    const equal = document.querySelector('.equal');
+    let numberArray = [];
+    const append = document.querySelectorAll('.append');
+    
+    append.forEach(button =>{
+        button.addEventListener('click',() => {
+           let number = button.textContent;
+           
+           numberArray.push(number)
+           output.textContent += numberArray[numberArray.length -1];
+           //Outputs the most recent push due to index = length -1
+           return numberArray;
+        })
+    })
+    equal.addEventListener('click', () => partition(numberArray, output))
+
+}
 
 
-function partition(userInput){
-    let operators = ['+','-','*','/'];
+
+function partition(userInput, output){
+    console.log(userInput)
+    let operators = ['+','-','*','÷'];
     let op = ''
 
     for (o in operators){
@@ -48,58 +47,40 @@ function partition(userInput){
     for(i in userInput){
         if(userInput[i] === op){
             let position = (parseInt(i));
-            console.log(position + ': index')
-            a = parseInt(((userInput.slice(0,position)).join()).replaceAll(',',''));
+            a = ((userInput.slice(0,position)).join()).replaceAll(',','');
             //In order: slice at index of 0 through i, join into string, remove all commas, and convert to int.
-            console.log(a)
-            b = parseInt(((userInput.slice(position + 1)).join()).replaceAll(',',''));
+            
+            b = (userInput.slice(position + 1)).join().replaceAll(',','');
             //b adds 1 to position to omit operator.
-            console.log(b)
+            a = decimal(a), b = decimal(b)
+            
+            //adds contition to handle decimal entry without a leading zero
+            function decimal(num){
+                if(num[0]=== '.'){
+                    num = num.replace('.','0.')
+                    
+                }
+                
+                return parseFloat(num);
+            }
+            
         }
     }
     this.methods = {
         "-": (a, b) => a - b,
         "+": (a, b) => a + b,
         "*": (a,b) => a * b,
-        "/": (a,b) => a / b
+        "÷": (a,b) => a / b
       };
     if(op in this.methods){
-        return this.methods[op](a,b)
-    }
+        // output.textContent =
+        let answer = this.methods[op](a,b);
+        userInput.length = 0;
+        output.textContent = answer;
+        userInput.push(answer);
+        console.log(userInput)
+    }   
 };
-  
-  
 
 
-
-    // const operateTask = [
-    //      {oper:'+', then: a + b}, {oper:'-', then: a - b}, {oper:'*', then: a * b}, {oper:'/', then: a / b}
-    // ]
-    
-
-
-// buttonContainer.addEventListener('click',(event) => {
-//     let target = event.target;
-    
-//     switch(target.id){
-//         case 'one':
-//         case 'two':
-//         case 'three':
-//         case 'four':
-//         case 'five':
-//         case 'six':
-//         case 'seven':
-//         case 'eight':
-//         case 'nine':
-//         case 'zero':
-//         case 'plus':
-//         case 'minus':
-//         case 'times':
-//         case 'divide':
-//             let number = target.textContent;
-//             math.push(number)
-//             break;
-
-//     }
-    
-   
+main();
