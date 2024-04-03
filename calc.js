@@ -1,36 +1,49 @@
+//Containers:
+const buttonContainer = document.querySelector('.buttonContainer');
+const digitContainer = document.querySelector('.digitContainer');
+
+//Functionals:
+const output = document.querySelector('.output');
+const clear = document.querySelector('.clear');
+const backspace = document.querySelector('.backspace');
+const equal = document.querySelector('.equal');
+const append = document.querySelectorAll('.append');
+
+let numberArray = [];
+eventListeners();
 
 
-function main(){
-    //Containers:
-    const buttonContainer = document.querySelector('.buttonContainer');
-    const digitContainer = document.querySelector('.digitContainer');
-
-    //Functionals:
-    const output = document.querySelector('.output');
-    const clear = document.querySelector('.clear');
-    const backspace = document.querySelector('.backspace');
-    const equal = document.querySelector('.equal');
-    let numberArray = [];
-    const append = document.querySelectorAll('.append');
-    
+function eventListeners(){
+    //numerical/operator button values:
     append.forEach(button =>{
         button.addEventListener('click',() => {
-           let number = button.textContent;
-           
-           numberArray.push(number)
-           output.textContent += numberArray[numberArray.length -1];
-           //Outputs the most recent push due to index = length -1
-           return numberArray;
+            let number = button.textContent;
+            //if last index of (numberArray !== +,*, / ) && (last 2 index of numberArray !== -) 
+             
+            numberArray.push(number)
+            output.textContent += numberArray[numberArray.length -1];
+            //Outputs the most recent push due to index = length -1
+            return numberArray;
         })
     })
     equal.addEventListener('click', () => partition(numberArray, output))
 
+    clear.addEventListener('click',() =>{
+        numberArray.length = 0;
+        output.textContent = ''
+    })
+
+    backspace.addEventListener('click',() => {
+        numberArray.pop()
+        //removes last element of array, except for previous answer which deletes entirely.
+        output.textContent = (numberArray.toString()).replace(',','');
+        
+    })
 }
 
 
-
 function partition(userInput, output){
-    console.log(userInput)
+    
     let operators = ['+','-','*','÷'];
     let op = ''
 
@@ -58,12 +71,13 @@ function partition(userInput, output){
             function decimal(num){
                 if(num[0]=== '.'){
                     num = num.replace('.','0.')
-                    
                 }
-                
+                else if(num[0] === '-'){
+                    num.replace('-','');
+                    console.log((parseFloat(num) * -1));
+                }
                 return parseFloat(num);
             }
-            
         }
     }
     this.methods = {
@@ -78,9 +92,8 @@ function partition(userInput, output){
         userInput.length = 0;
         output.textContent = answer;
         userInput.push(answer);
-        console.log(userInput)
+        return (userInput)
     }   
 };
 
 
-main();
