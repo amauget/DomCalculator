@@ -8,25 +8,74 @@ const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
 const equal = document.querySelector('.equal');
 const append = document.querySelectorAll('.append');
+const operator = document.querySelectorAll('.operator')
 
 let numberArray = [];
 eventListeners();
 
-
 function eventListeners(){
     //numerical/operator button values:
+    
     append.forEach(button =>{
         button.addEventListener('click',() => {
             let number = button.textContent;
-            //if last index of (numberArray !== +,*, / ) && (last 2 index of numberArray !== -) 
-             
+          
             numberArray.push(number)
-            output.textContent += numberArray[numberArray.length -1];
+            output.textContent = numberArray.join('');
             //Outputs the most recent push due to index = length -1
             return numberArray;
+       
         })
     })
-    equal.addEventListener('click', () => partition(numberArray, output))
+    operator.forEach(button =>{
+        button.addEventListener('click', () =>{
+            const multDivide = ['*','÷']
+
+            let operator = button.textContent
+            
+            if((operator !== '-' && numberArray.length === 0)||(multDivide.includes(numberArray[numberArray.length -1]) && operator !== '-')){
+            // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
+                return null
+            }
+            
+            output.textContent += operator;
+            return numberArray.push(...operator)
+            
+       })
+        
+    })
+    equal.addEventListener('click', () => {
+        const allOperators = ['+','-','*','÷'] //subtraction removed to meet negative conditions
+        let negNum = null;
+        let restOfArray = null;
+        for(let i = 1; i <= numberArray.length; i++){
+            console.log(numberArray[i])
+            
+            if(allOperators.includes(numberArray[i])){
+                if(numberArray[0] === '-'){
+                    console.log(numberArray[i])
+                    negNum = parseFloat(numberArray.slice(1,i).join('')) * -1
+                    restOfArray = numberArray.slice(i)
+                    numberArray.length = 0;
+                    numberArray.splice(0,0,negNum, ...restOfArray)
+                    console.log('first condition')
+                    console.log('negNum: ' + negNum)
+                    console.log('restOfArray: ' + restOfArray)
+                }
+            }
+        }
+
+        for(let i = 0; i <= allOperators.length; i++){
+            if(!numberArray.includes(allOperators[i]) && numberArray[0] === '-'){
+                negNum = parseFloat(numberArray.slice(1,).join('')) * -1
+                numberArray.length = 0;
+                numberArray.push(negNum);
+                console.log('second condition')
+                console.log(negNum)
+        }
+        partition(numberArray, output)}
+    
+    })
 
     clear.addEventListener('click',() =>{
         numberArray.length = 0;
@@ -36,14 +85,14 @@ function eventListeners(){
     backspace.addEventListener('click',() => {
         numberArray.pop()
         //removes last element of array, except for previous answer which deletes entirely.
-        output.textContent = (numberArray.toString()).replace(',','');
+        output.textContent = numberArray.join('');
         
     })
 }
 
 
 function partition(userInput, output){
-    
+    // console.log(userInput)
     let operators = ['+','-','*','÷'];
     let op = ''
 
@@ -74,7 +123,7 @@ function partition(userInput, output){
                 }
                 else if(num[0] === '-'){
                     num.replace('-','');
-                    console.log((parseFloat(num) * -1));
+                    (parseFloat(num) * -1);
                 }
                 return parseFloat(num);
             }
