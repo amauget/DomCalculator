@@ -24,10 +24,9 @@ eventListeners();
 function keyToButton(){
     document.addEventListener('keydown',(event) => {
         const allOperators = ['+','-','*','÷'] 
-
-        if(event.key >= 0 && event.key <= 9){
+        console.log(event.key)
+        if(event.key >= 0 && event.key <= 9 || event.key === '.'){
             numbersAppend(event.key, numberArray)
-            
         }
         else if(allOperators.includes(event.key)){
             
@@ -40,8 +39,23 @@ function keyToButton(){
                 operation = event.key
                 break;
             }
-            
             operatorAppend(operation, numberArray);
+        }
+        else{
+            switch(event.key){
+                case 'Enter':
+                    negativeFirstNum();
+                    break;
+                case 'Delete':
+                    numberArray.length = 0;
+                    output.textContent = '';
+                    break;
+                case 'Backspace':
+                    numberArray.pop()
+                    //removes last element of array, except for previous answer which deletes entirely.
+                    output.textContent = numberArray.join('');
+
+            }
         }
     })
 }
@@ -97,7 +111,6 @@ function eventListeners(){
     })
     backspace.addEventListener('click',() => {
         numberArray.pop()
-        //removes last element of array, except for previous answer which deletes entirely.
         output.textContent = numberArray.join('');
     })
 }
