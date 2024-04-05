@@ -1,11 +1,17 @@
+body{
+    display:flex;
+    justify-content: center;
+    margin-top: 150px;
+    background-color: rgb(7, 105, 143);
+}
 .calcContainer{
     width:325px;
     height: 230px;
-    border:solid black 1px;
+    border:solid gray 7px;
     display: flex;
     flex-direction: column;
     background-color: rgb(47, 45, 49);
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bold;
    
 }
@@ -16,10 +22,9 @@ button:hover{
 .output{
     margin:40px;
     height:60px;
-    text-align: center;
+    text-align: right;
+    overflow: auto;
     
-
-
 }
 .row1, .row2, .row3, .row4, .row5{
     display:flex;
