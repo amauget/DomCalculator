@@ -64,7 +64,7 @@ function eventListeners(){
             }
             for(let i = 1; i <= numberArray.length; i++){
                 if((plusMultDiv.includes(numberArray[i]) && operator !== '-')|| (minusPlus.includes(numberArray[i]))){
-                    negativeFirstNum();
+                    negativeFirstNum(); //handles first index item being '-' and calls calculate()
                     output.textContent += operator;
                     console.log('if triggered')
                     return numberArray.push(...operator)
