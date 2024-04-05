@@ -7,58 +7,68 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calcContainer">
-        <div class="output" type="text">
-        </div>
-        <div class="buttonContainer">
-            <div class="digitContainer">
-                <div class="row2">
-                    <button class="append" id="seven">7</button>
-                    <button class="append" id="eight">8</button>
-                    <button class="append" id="nine">9</button>
+    <h1>Welcome!</h1>
+    <h2>Try out my calculator utilising the buttons, or your keyboard!</h2> 
+    <div class="allCalcContent">
+        <ul> Key Commands:
+            <li>AC : Delete Key</li>
+            <li>&lArr; : Backspace</li>
+            <li>= : Enter</li>
+        </ul>
+        <div class="calcContainer">
+            <div class="output" type="text">
+            </div>
+            <div class="buttonContainer">
+                <div class="digitContainer">
+                    <div class="row2">
+                        <button class="append" id="seven">7</button>
+                        <button class="append" id="eight">8</button>
+                        <button class="append" id="nine">9</button>
+                        
+                    </div>
+                    <div class="row3">
+                        <button class="append" id="four">4</button>
+                        <button class="append" id="five">5</button>
+                        <button class="append" id="six">6</button>
+                        
+                    </div>
+                    <div class="row4">
+                        <button class="append" id="one" value="1">1</button>
+                        <button class="append" id="two">2</button>
+                        <button class="append" id="three">3</button>
+                        
+                    </div>
+                    <div class="row5">
+                        <button class="clear" id="clear">AC</button>
+                        <button class="append" id="zero">0</button>
+                        <button class="append" id="decimal">.</button>
+                    </div>
+                </div>
                     
-                </div>
-                <div class="row3">
-                    <button class="append" id="four">4</button>
-                    <button class="append" id="five">5</button>
-                    <button class="append" id="six">6</button>
+                <div class="operatorContainer">
+                    <div class="row1">
+                        <button class="backspace">&lArr;</button>
+                    </div>
+                    <div class="leftCol">
+                        <button class="operator" id="times">*</button>
+                        <button class=" operator" id="divide">&#247;</button>
+                    </div>
+                    <div class="rightCol">
+                        <button class="operator" id="plus">+</button>
+                        <button class="operator" id="minus">-</button>
+                    </div>
+                
+                        <button class='equal'>=</button>
                     
-                </div>
-                <div class="row4">
-                    <button class="append" id="one" value="1">1</button>
-                    <button class="append" id="two">2</button>
-                    <button class="append" id="three">3</button>
                     
-                </div>
-                <div class="row5">
-                    <button class="clear" id="clear">AC</button>
-                    <button class="append" id="zero">0</button>
-                    <button class="append" id="decimal">.</button>
-                </div>
+                </div>   
             </div>
                 
-            <div class="operatorContainer">
-                <div class="row1">
-                    <button class="backspace">&lArr;</button>
-                </div>
-                <div class="leftCol">
-                    <button class="operator" id="times">*</button>
-                    <button class=" operator" id="divide">&#247;</button>
-                </div>
-                <div class="rightCol">
-                    <button class="operator" id="plus">+</button>
-                    <button class="operator" id="minus">-</button>
-                </div>
-            
-                    <button class='equal'>=</button>
-                
-                
-            </div>   
         </div>
-                
-                
         
     </div>
+    <p>Note: The "-" key works to create negative values as well as subtraction.</p>
+    
    
 </body>
 <script type="text/javascript" src="calc.js"></script>

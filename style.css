@@ -1,8 +1,36 @@
 body{
     display:flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly; 
+    gap: 20px;
+    align-items: center;
     margin-top: 150px;
     background-color: rgb(7, 105, 143);
+}
+h2{
+    width: 600px;
+    text-align: center;
+}
+ul{
+    font-weight: bold;
+    margin-left: -130px;
+    padding: 20px;
+    width: 150px;
+    height:244px;
+    border: black solid 2px;
+
+}
+li{
+    font-weight: 500;
+    margin-top: 15px;
+    margin-left: 20px
+}
+.allCalcContent{
+    width: 7430px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
 }
 .calcContainer{
     width:325px;

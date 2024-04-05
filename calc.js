@@ -10,68 +10,82 @@ const equal = document.querySelector('.equal');
 const append = document.querySelectorAll('.append');
 const operator = document.querySelectorAll('.operator')
 
+//Operators:
+const multiply = document.querySelector('#times');
+const divide = document.querySelector('#divide');
+const add = document.querySelector('#plus');
+const subtract = document.querySelector('#minus');
+
 let numberArray = [];
 
-// alert("Welcome! The minus key also functions for negative values")
 keyToButton();
 eventListeners();
 
 function keyToButton(){
     document.addEventListener('keydown',(event) => {
+        const allOperators = ['+','-','*','÷'] 
+
         if(event.key >= 0 && event.key <= 9){
-            console.log(event.key)
+            numbersAppend(event.key, numberArray)
+            
+        }
+        else if(allOperators.includes(event.key)){
+            
+            let operation = null;
+            switch(event.key){
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                operation = event.key
+                break;
+            }
+            
+            operatorAppend(operation, numberArray);
         }
     })
 }
+function operatorAppend(operator, numberArray){
+    console.log(numberArray)
+    const allOperators = ['+','-','*','÷'] 
+        const multDiv = ['*','÷']
+        const plusMultDiv = ['+','*','÷']
+        const minusPlus = ['-','+']
+        if((operator === numberArray[numberArray.length-1]) || (minusPlus.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
+            numberArray.pop()
+            numberArray.push(operator)
+            output.textContent = numberArray.join('')
+            return numberArray
+            
+        }
+        if((operator !== '-' && numberArray.length === 0)||(multDiv.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) )){
+        // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
+            return null
+        }
+        for(let i = 1; i <= numberArray.length; i++){
+            console.log(numberArray)
+            if((plusMultDiv.includes(numberArray[i]) && operator !== '-')|| (minusPlus.includes(numberArray[i]))){
+                calculate(numberArray, output)
+                output.textContent += operator;
+                console.log('if triggered')
+                return numberArray.push(...operator)
+            }
+        }
+        output.textContent += operator;
+        return numberArray.push(...operator)
+}
+
 
 function eventListeners(){
     append.forEach(button =>{
         button.addEventListener('click',() => {
-            if(typeof(numberArray[numberArray.length -1]) === 'number'){
-                //disables ability to type numbers onto previous answer.
-                return null;
-            }
-            else{
-                let number = button.textContent;
-                numberArray.push(number)
-                output.textContent = numberArray.join('');
-                //Outputs the most recent push due to index = length -1
-            }
-            return numberArray;
+            numbersAppend(button.textContent);    
         })
     })
     operator.forEach(button =>{
         button.addEventListener('click', () =>{
-            const allOperators = ['+','-','*','÷'] 
-            const multDiv = ['*','÷']
-            const plusMultDiv = ['+','*','÷']
-            const minusPlus = ['-','+']
-            let operator = button.textContent
-            if((operator === numberArray[numberArray.length-1]) || (minusPlus.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
-               //if operator equals previous index item, or if last index item is '+' or '-' and new operator selection is any operator.
-                numberArray.pop()
-                numberArray.push(operator)
-                output.textContent = numberArray.join('')
-                return numberArray
-                
-            }
-            else if((operator !== '-' && numberArray.length === 0)||(multDiv.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) )){
-            // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
-                numberArray.pop()
-                numberArray.push(operator)
-                output.textContent = numberArray.join('')
-                return numberArray
-            }
-            for(let i = 1; i <= numberArray.length; i++){
-                if((plusMultDiv.includes(numberArray[i]) && operator !== '-')|| (minusPlus.includes(numberArray[i]))){
-                    negativeFirstNum(); //handles first index item being '-' and calls calculate()
-                    output.textContent += operator;
-                    console.log('if triggered')
-                    return numberArray.push(...operator)
-                }
-            }
-            output.textContent += operator;
-            return numberArray.push(...operator)
+            let operator = button.textContent;
+            operatorAppend(operator, numberArray);
        })
     })
     equal.addEventListener('click', () => {
@@ -87,6 +101,21 @@ function eventListeners(){
         output.textContent = numberArray.join('');
     })
 }
+
+function numbersAppend(input){
+    if(typeof(numberArray[numberArray.length -1]) === 'number'){
+        //disables ability to type numbers onto previous answer.
+        return null;
+    }
+    else{
+        let number = input;
+        numberArray.push(number)
+        output.textContent = numberArray.join('');
+        //Outputs the most recent push due to index = length -1
+    }
+    return numberArray;
+}
+
 function negativeFirstNum(){
     const allOperators = ['+','-','*','÷'] 
         let negNum = null;
@@ -94,7 +123,6 @@ function negativeFirstNum(){
         for(let i = 1; i <= numberArray.length; i++){
             if(allOperators.includes(numberArray[i])){
                 if(numberArray[0] === '-'){
-                    console.log(numberArray[i])
                     negNum = parseFloat(numberArray.slice(1,i).join('')) * -1
                     restOfArray = numberArray.slice(i)
                     numberArray.length = 0;
@@ -115,7 +143,6 @@ function negativeFirstNum(){
 }
 
 function calculate(userInput, output){
-    console.log(userInput)
     if(userInput.length === 1){
         let answer = parseFloat(userInput[0])
         userInput.length = 0;
