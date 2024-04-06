@@ -8,13 +8,7 @@ const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
 const equal = document.querySelector('.equal');
 const append = document.querySelectorAll('.append');
-const operator = document.querySelectorAll('.operator')
-
-//Operators:
-const multiply = document.querySelector('#times');
-const divide = document.querySelector('#divide');
-const add = document.querySelector('#plus');
-const subtract = document.querySelector('#minus');
+const operator = document.querySelectorAll('.operator');
 
 let numberArray = [];
 
@@ -24,7 +18,6 @@ eventListeners();
 function keyToButton(){
     document.addEventListener('keydown',(event) => {
         const keyOperators = ['+','-','*','/'] 
-        console.log(event.key)
         if(event.key >= 0 && event.key <= 9 || event.key === '.'){
             numbersAppend(event.key, numberArray)
         }
@@ -55,7 +48,6 @@ function keyToButton(){
                     numberArray.pop()
                     //removes last element of array, except for previous answer which deletes entirely.
                     output.textContent = numberArray.join('');
-
             }
         }
     })
@@ -67,6 +59,10 @@ function operatorAppend(operator, numberArray){
         const minusPlus = ['-','+']
         let count = numberArray.filter(item => item === '*' || item === '÷').length;
         if (operator === '-') {
+            if(numberArray[0] === '-' && allOperators.includes(operator)){
+                negativeFirstNum()
+                //converts first number to float, removing index 0 === '-' condition
+            }
             if(count > 1){
                 console.log('HERE' + numberArray);
                 numberArray.pop();
@@ -82,36 +78,38 @@ function operatorAppend(operator, numberArray){
                 
             }
         }
-        if((operator === numberArray[numberArray.length-1]) || (minusPlus.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
+        if((operator === numberArray[numberArray.length-1]) || (allOperators.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
             numberArray.pop()
-            // numberArray.push(operator)
+
+            if(plusMultDiv.includes(operator) && multDiv.includes(numberArray[numberArray.length-1])){
+                return null;
+            }
+            
+            numberArray.push(operator);
+            // numberArray.push(operator) // This line is pushing second operator * or / when *- occurs, leading to ** or */
             output.textContent = numberArray.join('')
             return numberArray
             
         }
+        
         if((operator !== '-' && numberArray.length === 0)||(allOperators.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) || operator ==='+' && minusPlus.includes(numberArray[numberArray.length -1]))){
             // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
             if (count = 1){
-                if(multDiv.includes(operator)){
+                if(plusMultDiv.includes(operator)){
                     numberArray.pop();
                     numberArray.push(operator);
                     output.textContent = numberArray.join('');
                     return numberArray;
-                    
                 }
                 else{
                     //accounts for division
                     console.log('2nd count');
                     return null;
-
                 }
                 
             }    
-                
-             //Multiplier still appending to array at this LINE!!!!!!!!!!!!!!!!!!
-             
         }
-        if (allOperators.includes(operator)) {
+        if (allOperators.includes(operator) && numberArray[0] !== '-') {
             calculate(numberArray, operator);
         }
         numberArray.push(operator)
@@ -119,7 +117,6 @@ function operatorAppend(operator, numberArray){
         output.textContent = numberArray.join('')
         return numberArray
 }
-
 
 function eventListeners(){
     append.forEach(button =>{
@@ -151,6 +148,7 @@ function numbersAppend(input){
         //disables ability to type numbers onto previous answer.
         return null;
     }
+    
     else{
         let number = input;
         numberArray.push(number)
