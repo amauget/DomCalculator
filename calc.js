@@ -23,21 +23,22 @@ eventListeners();
 
 function keyToButton(){
     document.addEventListener('keydown',(event) => {
-        const allOperators = ['+','-','*','÷'] 
+        const keyOperators = ['+','-','*','/'] 
         console.log(event.key)
         if(event.key >= 0 && event.key <= 9 || event.key === '.'){
             numbersAppend(event.key, numberArray)
         }
-        else if(allOperators.includes(event.key)){
+        else if(keyOperators.includes(event.key)){
             
             let operation = null;
             switch(event.key){
                 case '+':
                 case '-':
                 case '*':
+                    operation = event.key
+                    break;
                 case '/':
-                operation = event.key
-                break;
+                    operation = '÷';                
             }
             operatorAppend(operation, numberArray);
         }
@@ -60,33 +61,63 @@ function keyToButton(){
     })
 }
 function operatorAppend(operator, numberArray){
-    console.log(numberArray)
     const allOperators = ['+','-','*','÷'] 
         const multDiv = ['*','÷']
         const plusMultDiv = ['+','*','÷']
         const minusPlus = ['-','+']
+        let count = numberArray.filter(item => item === '*' || item === '÷').length;
+        if (operator === '-') {
+            if(count > 1){
+                console.log('HERE' + numberArray);
+                numberArray.pop();
+                
+                output.textContent = numberArray.join('')
+                return numberArray;
+            }
+            // If numberArray is empty or the last element is an operator, treat '-' as a negative sign
+            if (numberArray.length === 0 || multDiv.includes(numberArray[numberArray.length - 1])) {
+                numberArray.push(operator);
+                output.textContent = numberArray.join('');
+                return numberArray;
+                
+            }
+        }
         if((operator === numberArray[numberArray.length-1]) || (minusPlus.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
             numberArray.pop()
-            numberArray.push(operator)
+            // numberArray.push(operator)
             output.textContent = numberArray.join('')
             return numberArray
             
         }
-        if((operator !== '-' && numberArray.length === 0)||(multDiv.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) )){
-        // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
-            return null
+        if((operator !== '-' && numberArray.length === 0)||(allOperators.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) || operator ==='+' && minusPlus.includes(numberArray[numberArray.length -1]))){
+            // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
+            if (count = 1){
+                if(multDiv.includes(operator)){
+                    numberArray.pop();
+                    numberArray.push(operator);
+                    output.textContent = numberArray.join('');
+                    return numberArray;
+                    
+                }
+                else{
+                    //accounts for division
+                    console.log('2nd count');
+                    return null;
+
+                }
+                
+            }    
+                
+             //Multiplier still appending to array at this LINE!!!!!!!!!!!!!!!!!!
+             
         }
-        for(let i = 1; i <= numberArray.length; i++){
-            console.log(numberArray)
-            if((plusMultDiv.includes(numberArray[i]) && operator !== '-')|| (minusPlus.includes(numberArray[i]))){
-                calculate(numberArray, output)
-                output.textContent += operator;
-                console.log('if triggered')
-                return numberArray.push(...operator)
-            }
+        if (allOperators.includes(operator)) {
+            calculate(numberArray, operator);
         }
-        output.textContent += operator;
-        return numberArray.push(...operator)
+        numberArray.push(operator)
+        console.log(numberArray)
+        output.textContent = numberArray.join('')
+        return numberArray
 }
 
 
