@@ -15,15 +15,18 @@ h2{
 p{
     background: #b11b01ab;
     border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
     height: 30px;
     padding: 30px;
+    width: 1000px
 }
 ul{
     font-weight: bold;
     margin-left: -130px;
     padding: 20px;
     width: 150px;
-    height:244px;
+    height:320px;
     border: black solid 2px;
     background: wheat;
    
@@ -42,8 +45,8 @@ li{
     gap: 50px;
 }
 .calcContainer{
-    width:325px;
-    height: 230px;
+    width:500px;
+    height: 350px;
     border:solid gray 7px;
     display: flex;
     flex-direction: column;
@@ -58,7 +61,7 @@ button:hover{
 
 .output{
     margin:40px;
-    height:60px;
+    height:90px;
     text-align: right;
     overflow: auto;
     
@@ -74,13 +77,14 @@ button:hover{
     background-color: rgb(134, 134, 253);
 }
 button{
-    width:60px;
-    height:35px;
-    font-size: medium;
+    width:90px;
+    height:52px;
+    font-size: x-large;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    margin: 2px;
 }
 
 
@@ -104,7 +108,7 @@ button{
     margin:10px;
 }
 .backspace, .equal{
-    width:120px;
+    width:184px;
 }
 .equal{
     background-color: green;
