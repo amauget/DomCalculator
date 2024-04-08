@@ -52,73 +52,11 @@ function keyToButton(){
         }
     })
 }
-function operatorAppend(operator, numberArray){
-    const allOperators = ['+','-','*','÷'] 
-        const multDiv = ['*','÷']
-        const plusMultDiv = ['+','*','÷']
-        const minusPlus = ['-','+']
-        let count = numberArray.filter(item => item === '*' || item === '÷').length;
-        if (operator === '-') {
-            if(numberArray[0] === '-' && allOperators.includes(operator)){
-                negativeFirstNum()
-                //converts first number to float, removing index 0 === '-' condition
-            }
-            if(count > 1){
-                console.log('HERE' + numberArray);
-                numberArray.pop();
-                
-                output.textContent = numberArray.join('')
-                return numberArray;
-            }
-            // If numberArray is empty or the last element is an operator, treat '-' as a negative sign
-            if (numberArray.length === 0 || multDiv.includes(numberArray[numberArray.length - 1])) {
-                numberArray.push(operator);
-                output.textContent = numberArray.join('');
-                return numberArray;
-                
-            }
-        }
-        if((operator === numberArray[numberArray.length-1]) || (allOperators.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
-            numberArray.pop()
 
-            if(plusMultDiv.includes(operator) && multDiv.includes(numberArray[numberArray.length-1])){
-                return null;
-            }
-            
-            numberArray.push(operator);
-            // numberArray.push(operator) // This line is pushing second operator * or / when *- occurs, leading to ** or */
-            output.textContent = numberArray.join('')
-            return numberArray
-            
-        }
-        
-        if((operator !== '-' && numberArray.length === 0)||(allOperators.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) || operator ==='+' && minusPlus.includes(numberArray[numberArray.length -1]))){
-            // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
-            if (count = 1){
-                if(plusMultDiv.includes(operator)){
-                    numberArray.pop();
-                    numberArray.push(operator);
-                    output.textContent = numberArray.join('');
-                    return numberArray;
-                }
-                else{
-                    //accounts for division
-                    console.log('2nd count');
-                    return null;
-                }
-                
-            }    
-        }
-        if (allOperators.includes(operator) && numberArray[0] !== '-') {
-            calculate(numberArray, operator);
-        }
-        numberArray.push(operator)
-        console.log(numberArray)
-        output.textContent = numberArray.join('')
-        return numberArray
-}
 
 function eventListeners(){
+    const allOperators = ['+','-','*','÷'] 
+
     append.forEach(button =>{
         button.addEventListener('click',() => {
             numbersAppend(button.textContent);    
@@ -148,7 +86,6 @@ function numbersAppend(input){
         //disables ability to type numbers onto previous answer.
         return null;
     }
-    
     else{
         let number = input;
         numberArray.push(number)
@@ -157,11 +94,75 @@ function numbersAppend(input){
     }
     return numberArray;
 }
+function operatorAppend(operator, numberArray){
+    const allOperators = ['+','-','*','÷'] 
+        const multDiv = ['*','÷']
+        const plusMultDiv = ['+','*','÷']
+        const minusPlus = ['-','+']
+        let count = numberArray.filter(item => item === '*' || item === '÷').length;
+        if(numberArray[0] === '-' && allOperators.includes(operator)){
+            if(numberArray[0] === '-' && numberArray.length === 1 && allOperators.includes(operator)){
+                return null;
+            }
+            negativeFirstNum()
+            //converts first number to float, removing index 0 === '-' condition
+        }
+        if(numberArray.length === 0 && plusMultDiv.includes(operator)){
+            return null;
+        }
+        if (operator === '-') {
+            if(count > 1){
+                numberArray.pop();
+                output.textContent = numberArray.join('')
+                return numberArray;
+            }
+            // If numberArray is empty or the last element is an operator, treat '-' as a negative sign
+            if (numberArray.length === 0 || multDiv.includes(numberArray[numberArray.length - 1])) {
+                numberArray.push(operator);
+                output.textContent = numberArray.join('');
+                return numberArray;
+            }
+        }
+        if((operator === numberArray[numberArray.length-1]) || (allOperators.includes(numberArray[numberArray.length-1]) && allOperators.includes(operator))){
+            numberArray.pop()
+            if(plusMultDiv.includes(operator) && multDiv.includes(numberArray[numberArray.length-1])){
+                return null;
+            }
+            numberArray.push(operator);
+            // numberArray.push(operator) // This line is pushing second operator * or / when *- occurs, leading to ** or */
+            output.textContent = numberArray.join('')
+            return numberArray
+        }
+        if((operator !== '-' && numberArray.length === 0)||(allOperators.includes(numberArray[numberArray.length -1]) && operator !== '-') || (operator === '-' && minusPlus.includes(numberArray[numberArray.length -1]) || operator ==='+' && minusPlus.includes(numberArray[numberArray.length -1]))){
+            // if operation doesn't start with '-'              if previous entry to operation is '*' or '÷' and current operation entry is other than '-'
+            if (count = 1){
+                if(plusMultDiv.includes(operator)){
+                    numberArray.pop();
+                    numberArray.push(operator);
+                    output.textContent = numberArray.join('');
+                    return numberArray;
+                }
+                else{
+                    //accounts for division
+                    return null;
+                }
+            }    
+        }
+        if (allOperators.includes(operator) && numberArray[0] !== '-') {
+            calculate(numberArray, operator);
+        }
+        numberArray.push(operator)
+        output.textContent = numberArray.join('')
+        return numberArray
+}
 
 function negativeFirstNum(){
     const allOperators = ['+','-','*','÷'] 
         let negNum = null;
         let restOfArray = null;
+        if(allOperators.includes(numberArray[numberArray.length - 1])){
+            return null;
+        }
         for(let i = 1; i <= numberArray.length; i++){
             if(allOperators.includes(numberArray[i])){
                 if(numberArray[0] === '-'){
@@ -183,7 +184,6 @@ function negativeFirstNum(){
         }
         calculate(numberArray, output)}
 }
-
 function calculate(userInput, output){
     if(userInput.length === 1){
         let answer = parseFloat(userInput[0])
@@ -202,7 +202,6 @@ function calculate(userInput, output){
     }
     let a = [];
     let b = [];
-
     for(let i =0; i < userInput.length; i++){
         if(userInput[i] === op){
             let position = (parseFloat(i));
