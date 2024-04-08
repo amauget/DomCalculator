@@ -62,6 +62,7 @@ button:hover{
 .output{
     margin:40px;
     height:90px;
+    font-size: xx-large;
     text-align: right;
     overflow: auto;
     
